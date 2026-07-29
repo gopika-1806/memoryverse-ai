@@ -1,0 +1,18 @@
+flowchart TD
+    A[User uploads document\ncertificate / resume / project report / internship letter] --> B[Module 1: AI Data Ingestion\nextract text / accept pasted content]
+    B --> C[Module 2: Intelligent Categorization\nLLM classifies into Projects, Skills,\nCertifications, Internships, Achievements, Academics]
+    C --> D[Module 3: Relationship Engine\nLLM compares new item against existing catalog\ndetects links: Certification to Skill to Project to Internship]
+    D --> E[Module 4: Digital Journey Timeline\nitems placed on a year-indexed timeline]
+    C --> F[(In-memory item store\nproduction: vector DB + metadata store)]
+    D --> F
+    E --> F
+    G[User types natural-language query\ne.g. show all my certificates] --> H[Module 5: Smart Retrieval System\nLLM ranks catalog items against the query,\nreturns matches plus a plain-language answer]
+    F --> H
+    H --> I[Original files/links returned\nunmodified, in original format]
+
+    subgraph Production upgrade path
+    F2[(Vector database\nembeddings per item)]
+    J[Embedding model\nfor semantic search at scale]
+    end
+    F -.scale beyond demo.-> F2
+    H -.replace catalog-in-prompt.-> J
